@@ -1,4 +1,4 @@
-time = 3000;
+time = 2000;
 var paper;
 
 
@@ -9,10 +9,26 @@ function playSong() {
 
 function moveCircle(circles, i) {
     var circle = circles[i];
-    circle.cx = 500 + i*30;
+    circle.cx =  500 + i*30;
     circle.animate({cx: circle.cx, fill: circle.cx - 100 ? "hsb(.3, .75, .75)" : "#000", "fill-opacity": +!!(circle.cx - 100)}, time, "linear", 
       function() {
           moveCircles(circles, i - 1);
+      });
+};
+
+function moveLastCircle(circles, i) {
+    var circle = circles[i];
+    circle.cx = 500 + i*30;
+    circle.animate({cx: circle.cx, fill: circle.cx - 100 ? "hsb(.3, .75, .75)" : "#000", "fill-opacity": +!!(circle.cx - 100)}, time, "linear", 
+      function() {
+          playSong();
+          t = paper.text(300, 100, "Rétrospective !");
+          t.attr("font-size", 40);
+          t.click(
+            function() {
+                t.remove();
+            }
+          );
       });
 };
 
@@ -30,9 +46,13 @@ function moveCircles(circles, i) {
                 t.remove();
             }
         );
-    } else {
-        if ( i >= 0) {
-	    moveCircle(circles, i);
+    } else  {
+        if ( i == 0) { // fin d'itération
+            moveLastCircle(circles, i);
+        } else {
+            if ( i > 0) {
+	        moveCircle(circles, i);
+            }
         }
     }
 };
