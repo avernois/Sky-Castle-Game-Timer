@@ -9,7 +9,7 @@ function playSong() {
 
 function moveCircle(circles, i) {
     var circle = circles[i];
-    circle.cx = 300 + i*30;
+    circle.cx = 500 + i*30;
     circle.animate({cx: circle.cx, fill: circle.cx - 100 ? "hsb(.3, .75, .75)" : "#000", "fill-opacity": +!!(circle.cx - 100)}, time, "linear", 
       function() {
           moveCircles(circles, i - 1);
@@ -30,7 +30,6 @@ function moveCircles(circles, i) {
                 t.remove();
             }
         );
-        
     } else {
         if ( i >= 0) {
 	    moveCircle(circles, i);
@@ -40,7 +39,7 @@ function moveCircles(circles, i) {
 
 function initForm () {
      paper = Raphael("scg", 800, 600);
-
+     paper.rect(790, 590, 800, 600);
     var circles = paper.set();
    
     for (i = 0; i < 10; i++) {  
