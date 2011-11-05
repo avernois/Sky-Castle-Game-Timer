@@ -16,22 +16,6 @@ function moveCircle(circles, i) {
       });
 };
 
-function moveLastCircle(circles, i) {
-    var circle = circles[i];
-    circle.cx = 500 + i*30;
-    circle.animate({cx: circle.cx, fill: circle.cx - 100 ? "hsb(.3, .75, .75)" : "#000", "fill-opacity": +!!(circle.cx - 100)}, time, "linear", 
-      function() {
-          playSong();
-          t = paper.text(300, 100, "Rétrospective !");
-          t.attr("font-size", 40);
-          t.click(
-            function() {
-                t.remove();
-            }
-          );
-      });
-};
-
 function moveCircles(circles, i) {
     var circle = circles[i];
    
@@ -47,10 +31,17 @@ function moveCircles(circles, i) {
             }
         );
     } else  {
-        if ( i == 0) { // fin d'itération
-            moveLastCircle(circles, i);
+        if ( i < 0) { // fin d'itération
+          playSong();
+          t = paper.text(300, 100, "Rétrospective !");
+          t.attr("font-size", 40);
+          t.click(
+            function() {
+                t.remove();
+            }
+          );
         } else {
-            if ( i > 0) {
+            if ( i >= 0) {
 	        moveCircle(circles, i);
             }
         }
