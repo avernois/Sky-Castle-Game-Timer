@@ -1,5 +1,5 @@
-day_duration = 1000;
-retro_duration = 5000;
+day_duration = 5000;
+retro_duration = 20000;
 nb_iterations = 5;
 nb_days = 10; 
 var paper;
@@ -12,7 +12,7 @@ function playSong() {
 
 function playGong() {
     var song = document.getElementById('gong');
-    //song.play(); 
+    song.play(); 
 };
 
 function hideShowMark(iterations, i, j) {
