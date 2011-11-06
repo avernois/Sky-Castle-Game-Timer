@@ -1,4 +1,5 @@
 day_duration = 1000;
+retro_duration = 5000;
 nb_iterations = 5;
 nb_days = 10; 
 var paper;
@@ -11,7 +12,7 @@ function playSong() {
 
 function playGong() {
     var song = document.getElementById('gong');
-    song.play(); 
+    //song.play(); 
 };
 
 function hideShowMark(iterations, i, j) {
@@ -61,16 +62,7 @@ function moveCircles(iterations, i, j) {
     } else  {
         if ( i < 0) { // fin d'itération
             playGong();
-            t = text("Rétrospective !");
-            t.click(
-              function() {
-                t.remove();
-                if (j < nb_iterations - 1) {
-                    playGong();
-	            moveCircle(iterations, nb_days - 1, j + 1);
-                }
-              }
-            );
+            retroTime(iterations, i, j);
         } else {
             if (i == (nb_days - 1)) { // début d'itération
                 playGong();
@@ -82,14 +74,48 @@ function moveCircles(iterations, i, j) {
     }
 };
 
-function timeMark(day, iteration) {
-    var marks = paper.set(); 
-    marks.push(paper.rect(124 + day * 30, 95 + iteration * 60, 2 , 10).hide());
-    marks.push(paper.rect(249 + day * 30, 93 + iteration * 60, 2 , 14).hide());
-    marks.push(paper.rect(374 + day * 30, 95 + iteration * 60, 2 , 10).hide());
-    return marks;
+
+function retroTime(iterations, i, j) {
+
+    var t = text("Rétrospective !");
+    var marks = paper.set();
+    var line = paper.rect(50, 423, 720, 4);
+    marks.push(line);
+    marks.push(paper.rect(49, 415, 2 , 20));
+    marks.push(paper.rect(229, 420, 2 , 10));
+    marks.push(paper.rect(409, 418, 2 , 14));
+    marks.push(paper.rect(589, 420, 2 , 10));
+    marks.push(paper.rect(769, 415, 2 , 20));
+
+    var circle = paper.circle(50, 425, 25);
+    marks.push(circle);
+    circle.cx =  770;
+    circle.animate({cx: circle.cx, fill: circle.cx - 100 ? "hsb(.3, .75, .75)" : "#000", "fill-opacity": +!!(circle.cx - 100)}, retro_duration, "linear",
+      function () {
+          t.remove();
+          playGong();
+          var retro = text("Rétrospective finie.\nUne nouvelle itération va commencer.");
+          retro.click(
+            function() {
+                retro.remove();
+                marks.remove();
+                if (j < nb_iterations - 1) {
+                    playGong();
+                    moveCircle(iterations, nb_days - 1, j + 1);
+                }
+            }
+          );
+      }  
+    ); 
 };
 
+function timeMark(day, iteration) {
+    var marks = paper.set(); 
+    marks.push(paper.rect(149 + day * 30, 95 + iteration * 60, 2 , 10).hide());
+    marks.push(paper.rect(274 + day * 30, 93 + iteration * 60, 2 , 14).hide());
+    marks.push(paper.rect(399 + day * 30, 95 + iteration * 60, 2 , 10).hide());
+    return marks;
+};
 
 function initForm () {
     paper = Raphael("scg", 800, 600);
@@ -103,9 +129,9 @@ function initForm () {
         var iteration = paper.set();
         var circles = paper.set();
         var marks = paper.set();
-        paper.rect(50, 98 + j * 60, 740, 4); 
+        paper.rect(50, 98 + j * 60, 720, 4); 
    
-        for (i = 0; i < 10; i++) {  
+        for (i = 0; i < nb_days; i++) {  
             circles.push(paper.circle(50 + 30 * i, 100 + j*60, 25));
             marks.push(timeMark(i, j));
         }
@@ -123,5 +149,6 @@ function initForm () {
           t.remove();
       }
     );
+
 };
 
