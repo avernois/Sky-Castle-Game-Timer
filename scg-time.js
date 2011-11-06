@@ -82,7 +82,7 @@ function moveCircles(iterations, i, j) {
     }
 };
 
-function day_durationMark(day, iteration) {
+function timeMark(day, iteration) {
     var marks = paper.set(); 
     marks.push(paper.rect(124 + day * 30, 95 + iteration * 60, 2 , 10).hide());
     marks.push(paper.rect(249 + day * 30, 93 + iteration * 60, 2 , 14).hide());
@@ -107,7 +107,7 @@ function initForm () {
    
         for (i = 0; i < 10; i++) {  
             circles.push(paper.circle(50 + 30 * i, 100 + j*60, 25));
-            marks.push(day_durationMark(i, j));
+            marks.push(timeMark(i, j));
         }
         circles.attr({fill: "#000", stroke: "#fff", "fill-opacity": 100});
   
