@@ -1,4 +1,4 @@
-time = 1000;
+day_duration = 1000;
 nb_iterations = 5;
 nb_days = 10; 
 var paper;
@@ -14,12 +14,7 @@ function playGong() {
     song.play(); 
 };
 
-function moveCircle(iterations, i, j) {
-    var iteration = iterations[j];
-    var circles = iteration[0];
-    var circle = circles[i];
-
-
+function hideShowMark(iterations, i, j) {
     if (i < nb_days - 1) {
        var prevMark = iterations[j][1][i + 1];
        prevMark.hide();
@@ -27,20 +22,35 @@ function moveCircle(iterations, i, j) {
     
     var mark = iterations[j][1][i];
     mark.show();
+};
+
+function moveCircle(iterations, i, j) {
+    var iteration = iterations[j];
+    var circles = iteration[0];
+    var circle = circles[i];
+
+    hideShowMark(iterations, i, j);
 
     circle.cx =  500 + i*30;
-    circle.animate({cx: circle.cx, fill: circle.cx - 100 ? "hsb(.3, .75, .75)" : "#000", "fill-opacity": +!!(circle.cx - 100)}, time, "linear", 
+    circle.animate({cx: circle.cx, fill: circle.cx - 100 ? "hsb(.3, .75, .75)" : "#000", "fill-opacity": +!!(circle.cx - 100)}, day_duration, "linear", 
       function() {
           moveCircles(iterations, i - 1, j);
       });
+};
+
+function text(text) {
+
+    var t = paper.text(400, 500, text);
+    t.attr("font-size", 40);
+
+    return t;
 };
 
 function moveCircles(iterations, i, j) {
 
     if(i == (nb_days/2 - 1)) {
     	playGong();
-        t = paper.text(400, 500, "Vous avez de la chance ?");
-        t.attr("font-size", 40);
+        t = text("Vous avez de la chance ?");
         t.click(
             function() {
     		playGong();
@@ -51,8 +61,7 @@ function moveCircles(iterations, i, j) {
     } else  {
         if ( i < 0) { // fin d'itération
             playGong();
-            t = paper.text(400, 500, "Rétrospective !");
-            t.attr("font-size", 40);
+            t = text("Rétrospective !");
             t.click(
               function() {
                 t.remove();
@@ -73,7 +82,7 @@ function moveCircles(iterations, i, j) {
     }
 };
 
-function timeMark(day, iteration) {
+function day_durationMark(day, iteration) {
     var marks = paper.set(); 
     marks.push(paper.rect(124 + day * 30, 95 + iteration * 60, 2 , 10).hide());
     marks.push(paper.rect(249 + day * 30, 93 + iteration * 60, 2 , 14).hide());
@@ -98,7 +107,7 @@ function initForm () {
    
         for (i = 0; i < 10; i++) {  
             circles.push(paper.circle(50 + 30 * i, 100 + j*60, 25));
-            marks.push(timeMark(i, j));
+            marks.push(day_durationMark(i, j));
         }
         circles.attr({fill: "#000", stroke: "#fff", "fill-opacity": 100});
   
@@ -108,7 +117,7 @@ function initForm () {
         iterations.push(iteration); 
     }
 
-    var t = paper.text(400, 500, "Démarrer").click(
+    var t = text("Démarrer").click(
       function() {
           moveCircles(iterations, nb_days - 1, 0);
           t.remove();
