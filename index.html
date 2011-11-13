@@ -3,6 +3,68 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Sky Castle Game - Time Master</title>
+		<style type="text/css">
+			body
+			{
+				background: url("images/fondscg.jpg");
+				background-repeat: no-repeat;
+				background-position: center;
+				margin: 752px;
+				text-align: center;
+			}
+			#mainscg
+			{
+				position:absolute;
+				left: 50%; 
+				top: 50%;
+				width: 715px;
+				height: 490px;
+				margin-top: -250px;
+				margin-left: -382px;
+  			}
+			#scg
+			{
+				margin-top: -544px;
+			}
+			h1
+			{
+				margin-top: -135px;
+				font-family: Georgia,"Times New Roman",Serif;
+				font-style:italic;
+				color:rgb(139,101,63);	
+			}
+			p
+			{
+				color:rgb(139,101,63);	
+				margin-top: -54px;
+				font-weight:bold;
+			}
+			.img1
+			{
+				margin-top: 20px;
+				margin-left: -622px;
+			}
+			.img2
+			{
+				margin-top: 350px;
+				margin-left: 680px;
+				height:100px;
+				width:100px;
+			}
+			.inspect
+			{
+				text-align: center;
+				font-size: 0.90em;
+				margin-top: -64px;
+				margin-left: 712px;
+				-webkit-transform: rotate(-45deg);
+				-moz-transform: rotate(-45deg);
+				filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+				color: white;
+			}
+		</style>
+		
+		
         <script src="js/raphael.js" type="text/javascript" charset="utf-8"></script>
         <script src="scg-time.js" type="text/javascript" charset="utf-8"></script>
         <script type="text/javascript" charset="utf-8">
@@ -10,15 +72,28 @@
         </script>
     </head>
     <body onload="initForm()">
-        <audio id="gong">
-            <source src="sound/gong.ogg" type="audio/ogg" preload="auto" />
-            Audio tag not supported
-        </audio>
-        <audio id="audio">
-            <source src="sound/tmp.ogg" type="audio/ogg" preload="auto" />
-            Audio tag not supported
-        </audio>
-        <div id="scg">
-        </div>
+		<div id="mainscg">
+			<h1> Sky Castle Game</h1>
+			<img class="img1" src="images/king.png" alt="King" /> 
+			<br />
+			<img class="img2" src="images/logoInspect.png" alt="Inspecter & Adapter" /> 
+			<p class="inspect">
+			Inspecter & Adapter
+			</p>
+			<br />
+			<audio id="gong">
+				<source src="sound/gong.ogg" type="audio/ogg" preload="auto" />
+				Audio tag not supported
+			</audio>
+			<audio id="audio">
+				<source src="sound/tmp.ogg" type="audio/ogg" preload="auto" />
+				Audio tag not supported
+			</audio>
+			<div id="scg">
+			</div>
+			<p>
+			Atelier animé par Philippe LAUNAY, Antoine VERNOIS et Fabrice AIMETTI
+			</p>
+		</div>
     </body>
 </HTML>
