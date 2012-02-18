@@ -1,5 +1,5 @@
-day_duration = 5000;
-retro_duration = 20000;
+day_duration = 30000;
+retro_duration = 300000;
 nb_iterations = 5;
 nb_days = 10; 
 var paper;
