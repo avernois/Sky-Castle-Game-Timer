@@ -1,10 +1,9 @@
-day_duration = 500;
-retro_duration = 1000;
-nb_iterations = 5;
-nb_days = 10; 
+DAY_DURATION = 500;
+RETRO_DURATION = 1000;
+NB_ITERATIONS = 5;
+NB_DAYS = 10; 
 var paper;
 var sound = false;
-
 
 
 function moveCircle(iterations, day_left, current_iteration) {
@@ -15,7 +14,7 @@ function moveCircle(iterations, day_left, current_iteration) {
     hideShowMark(iterations, day_left, current_iteration);
 
     circle.cx =  500 + day_left*30;
-    circle.animate({cx: circle.cx, fill: circle.cx - 100 ? "hsb(.3, .75, .75)" : "#000", "fill-opacity": +!!(circle.cx - 100)}, day_duration, "linear", 
+    circle.animate({cx: circle.cx, fill: circle.cx - 100 ? "hsb(.3, .75, .75)" : "#000", "fill-opacity": +!!(circle.cx - 100)}, DAY_DURATION, "linear", 
       function() {
           moveCircles(iterations, day_left - 1, current_iteration);
       });
@@ -24,7 +23,7 @@ function moveCircle(iterations, day_left, current_iteration) {
 
 function moveCircles(iterations, day_left, current_iteration) {
 
-    if(day_left == (nb_days/2 - 1)) {
+    if(day_left == (NB_DAYS/2 - 1)) {
     	playGong();
         t = text("Vous avez de la chance ?");
         t.click(
@@ -39,7 +38,7 @@ function moveCircles(iterations, day_left, current_iteration) {
             playGong();
             retroTime(iterations, current_iteration);
         } else {
-            if (day_left == (nb_days - 1)) { // début d'itération
+            if (day_left == (NB_DAYS - 1)) { // début d'itération
                 playGong();
             } else {
                 playSong();
@@ -65,7 +64,7 @@ function retroTime(iterations, current_iteration) {
     var circle = paper.circle(50, 425, 25);
     marks.push(circle);
     circle.cx =  770;
-    circle.animate({cx: circle.cx, fill: circle.cx - 100 ? "hsb(.3, .75, .75)" : "#000", "fill-opacity": +!!(circle.cx - 100)}, retro_duration, "linear",
+    circle.animate({cx: circle.cx, fill: circle.cx - 100 ? "hsb(.3, .75, .75)" : "#000", "fill-opacity": +!!(circle.cx - 100)}, RETRO_DURATION, "linear",
       function () {
           t.remove();
           playGong();
@@ -74,9 +73,9 @@ function retroTime(iterations, current_iteration) {
             function() {
                 retro.remove();
                 marks.remove();
-                if (current_iteration < nb_iterations - 1) {
+                if (current_iteration < NB_ITERATIONS - 1) {
                     playGong();
-                    moveCircle(iterations, nb_days - 1,current_iteration  + 1);
+                    moveCircle(iterations, NB_DAYS - 1,current_iteration  + 1);
                 }
             }
           );
@@ -92,14 +91,14 @@ function initForm () {
     var iterations = paper.set();
     
   
-    for (current_iteration=0; current_iteration < nb_iterations; current_iteration++) {
+    for (current_iteration=0; current_iteration < NB_ITERATIONS; current_iteration++) {
 
         var iteration = paper.set();
         var circles = paper.set();
         var marks = paper.set();
         paper.rect(50, 98 + current_iteration * 60, 720, 4); 
    
-        for (day = 0; day < nb_days; day++) {  
+        for (day = 0; day < NB_DAYS; day++) {  
             circles.push(paper.circle(50 + 30 * day, 100 + current_iteration*60, 25));
             marks.push(timeMark(day, current_iteration));
         }
@@ -113,7 +112,7 @@ function initForm () {
 
     var t = text("Démarrer").click(
       function() {
-          moveCircles(iterations, nb_days - 1, 0);
+          moveCircles(iterations, NB_DAYS - 1, 0);
           t.remove();
       }
     );
@@ -133,7 +132,7 @@ function timeMark(day, iteration) {
 
 
 function hideShowMark(iterations, day, current_iteration) {
-    if (day < nb_days - 1) {
+    if (day < NB_DAYS - 1) {
        var prevMark = iterations[current_iteration][1][day + 1];
        prevMark.hide();
     } ;
