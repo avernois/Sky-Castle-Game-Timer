@@ -5,29 +5,7 @@ nb_days = 10;
 var paper;
 var sound = false;
 
-function playSong() {
-    if (sound) {
-        var song = document.getElementById('audio');
-        song.play();
-    } 
-};
 
-function playGong() {
-    if (sound) {
-        var song = document.getElementById('gong');
-        song.play(); 
-    }
-};
-
-function hideShowMark(iterations, day, current_iteration) {
-    if (day < nb_days - 1) {
-       var prevMark = iterations[current_iteration][1][day + 1];
-       prevMark.hide();
-    } ;
-    
-    var mark = iterations[current_iteration][1][day];
-    mark.show();
-};
 
 function moveCircle(iterations, day_left, current_iteration) {
     var iteration = iterations[current_iteration];
@@ -43,13 +21,6 @@ function moveCircle(iterations, day_left, current_iteration) {
       });
 };
 
-function text(text) {
-
-    var t = paper.text(400, 500, text);
-    t.attr("font-size", 40);
-
-    return t;
-};
 
 function moveCircles(iterations, day_left, current_iteration) {
 
@@ -113,12 +84,81 @@ function retroTime(iterations, current_iteration) {
     ); 
 };
 
+
+
+function initForm () {
+    paper = Raphael("scg", 800, 600);
+
+    var iterations = paper.set();
+    
+  
+    for (current_iteration=0; current_iteration < nb_iterations; current_iteration++) {
+
+        var iteration = paper.set();
+        var circles = paper.set();
+        var marks = paper.set();
+        paper.rect(50, 98 + current_iteration * 60, 720, 4); 
+   
+        for (day = 0; day < nb_days; day++) {  
+            circles.push(paper.circle(50 + 30 * day, 100 + current_iteration*60, 25));
+            marks.push(timeMark(day, current_iteration));
+        }
+        circles.attr({fill: "#000", stroke: "#fff", "fill-opacity": 100});
+  
+        iteration.push(circles);
+        iteration.push(marks);
+ 
+        iterations.push(iteration); 
+    }
+
+    var t = text("Démarrer").click(
+      function() {
+          moveCircles(iterations, nb_days - 1, 0);
+          t.remove();
+      }
+    );
+
+    soundMgmt();
+};
+
+
+// Time mark
 function timeMark(day, iteration) {
     var marks = paper.set(); 
     marks.push(paper.rect(149 + day * 30, 95 + iteration * 60, 2 , 10).hide());
     marks.push(paper.rect(274 + day * 30, 93 + iteration * 60, 2 , 14).hide());
     marks.push(paper.rect(399 + day * 30, 95 + iteration * 60, 2 , 10).hide());
     return marks;
+};
+
+
+function hideShowMark(iterations, day, current_iteration) {
+    if (day < nb_days - 1) {
+       var prevMark = iterations[current_iteration][1][day + 1];
+       prevMark.hide();
+    } ;
+    
+    var mark = iterations[current_iteration][1][day];
+    mark.show();
+};
+
+
+//
+// Sound Management
+//
+
+function playSong() {
+    if (sound) {
+        var song = document.getElementById('audio');
+        song.play();
+    } 
+};
+
+function playGong() {
+    if (sound) {
+        var song = document.getElementById('gong');
+        song.play(); 
+    }
 };
 
 function soundOnButton() {
@@ -156,40 +196,18 @@ function soundMgmt() {
     }
 }
 
-function initForm () {
-    paper = Raphael("scg", 800, 600);
 
-    var iterations = paper.set();
-    
-  
-    for (current_iteration=0; current_iteration < nb_iterations; current_iteration++) {
-
-        var iteration = paper.set();
-        var circles = paper.set();
-        var marks = paper.set();
-        paper.rect(50, 98 + current_iteration * 60, 720, 4); 
-   
-        for (day = 0; day < nb_days; day++) {  
-            circles.push(paper.circle(50 + 30 * day, 100 + current_iteration*60, 25));
-            marks.push(timeMark(day, current_iteration));
-        }
-        circles.attr({fill: "#000", stroke: "#fff", "fill-opacity": 100});
-  
-        iteration.push(circles);
-        iteration.push(marks);
- 
-        iterations.push(iteration); 
-    }
-
-    var t = text("Démarrer").click(
-      function() {
-          moveCircles(iterations, nb_days - 1, 0);
-          t.remove();
-      }
-    );
-
-    soundMgmt();
-};
 
 var soundOnPath = "M4.998,12.127v7.896h4.495l6.729,5.526l0.004-18.948l-6.73,5.526H4.998z M18.806,11.219c-0.393-0.389-1.024-0.389-1.415,0.002c-0.39,0.391-0.39,1.024,0.002,1.416v-0.002c0.863,0.864,1.395,2.049,1.395,3.366c0,1.316-0.531,2.497-1.393,3.361c-0.394,0.389-0.394,1.022-0.002,1.415c0.195,0.195,0.451,0.293,0.707,0.293c0.257,0,0.513-0.098,0.708-0.293c1.222-1.22,1.98-2.915,1.979-4.776C20.788,14.136,20.027,12.439,18.806,11.219z M21.101,8.925c-0.393-0.391-1.024-0.391-1.413,0c-0.392,0.391-0.392,1.025,0,1.414c1.45,1.451,2.344,3.447,2.344,5.661c0,2.212-0.894,4.207-2.342,5.659c-0.392,0.39-0.392,1.023,0,1.414c0.195,0.195,0.451,0.293,0.708,0.293c0.256,0,0.512-0.098,0.707-0.293c1.808-1.809,2.929-4.315,2.927-7.073C24.033,13.24,22.912,10.732,21.101,8.925z M23.28,6.746c-0.393-0.391-1.025-0.389-1.414,0.002c-0.391,0.389-0.391,1.023,0.002,1.413h-0.002c2.009,2.009,3.248,4.773,3.248,7.839c0,3.063-1.239,5.828-3.246,7.838c-0.391,0.39-0.391,1.023,0.002,1.415c0.194,0.194,0.45,0.291,0.706,0.291s0.513-0.098,0.708-0.293c2.363-2.366,3.831-5.643,3.829-9.251C27.115,12.389,25.647,9.111,23.28,6.746z";
 var soundOffPath = "M4.998,12.127v7.896h4.495l6.729,5.526l0.004-18.948l-6.73,5.526H4.998z";
+
+
+// Utilities
+
+function text(text) {
+
+    var t = paper.text(400, 500, text);
+    t.attr("font-size", 40);
+
+    return t;
+};
