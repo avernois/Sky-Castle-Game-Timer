@@ -5,6 +5,24 @@ NB_DAYS = 10;
 var paper;
 var sound = false;
 
+var manual = false;
+
+function nextDay(iterations, day_left, current_iteration) {
+
+    if (manual || day_left == (NB_DAYS -1)) {
+        t = text("Démarrer le jour " + (NB_DAYS - day_left));
+
+        t.click(
+          function() {
+              t.remove();
+              moveCircle(iterations, day_left, current_iteration);
+          }
+        );
+    } else {
+      moveCircle(iterations, day_left, current_iteration);
+    }
+}
+
 
 function moveCircle(iterations, day_left, current_iteration) {
     var iteration = iterations[current_iteration];
@@ -17,7 +35,8 @@ function moveCircle(iterations, day_left, current_iteration) {
     circle.animate({cx: circle.cx, fill: circle.cx - 100 ? "hsb(.3, .75, .75)" : "#000", "fill-opacity": +!!(circle.cx - 100)}, DAY_DURATION, "linear", 
       function() {
           moveCircles(iterations, day_left - 1, current_iteration);
-      });
+      }
+    );
 };
 
 
@@ -28,9 +47,9 @@ function moveCircles(iterations, day_left, current_iteration) {
         t = text("Vous avez de la chance ?");
         t.click(
             function() {
-    		playGong();
-                moveCircle(iterations, day_left, current_iteration);
+    		        playGong();
                 t.remove();
+                nextDay(iterations, day_left, current_iteration);
             }
         );
     } else  {
@@ -43,7 +62,7 @@ function moveCircles(iterations, day_left, current_iteration) {
             } else {
                 playSong();
             }
-	    moveCircle(iterations, day_left, current_iteration);
+	          nextDay(iterations, day_left, current_iteration);
         }
     }
 };
@@ -75,7 +94,7 @@ function retroTime(iterations, current_iteration) {
                 marks.remove();
                 if (current_iteration < NB_ITERATIONS - 1) {
                     playGong();
-                    moveCircle(iterations, NB_DAYS - 1,current_iteration  + 1);
+                    nextDay(iterations, NB_DAYS - 1,current_iteration  + 1);
                 }
             }
           );
@@ -110,12 +129,7 @@ function initForm () {
         iterations.push(iteration); 
     }
 
-    var t = text("Démarrer").click(
-      function() {
-          moveCircles(iterations, NB_DAYS - 1, 0);
-          t.remove();
-      }
-    );
+    nextDay(iterations, NB_DAYS - 1, 0);
 
     soundMgmt();
 };
