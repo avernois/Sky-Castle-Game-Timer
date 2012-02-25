@@ -6,25 +6,20 @@ NB_DAYS = 10;
 DEFAULT_SOUND_STATE = false;
 DEFAULT_MANUAL_STATE = true;
 
-
-
 var sound = DEFAULT_SOUND_STATE;
 var manual = DEFAULT_MANUAL_STATE;
 
 var paper;
-//
+
 // main function of that script.
 // It aims to initialize everything needed.
-// It then starts the bord in order to play Sky Castle Game
-//
-
+// It then starts the board in order to play Sky Castle Game
 function launchSCGBoard () {
     paper = Raphael("scg", 800, 600);
 
     var iterations = paper.set();
     
     for (current_iteration=0; current_iteration < NB_ITERATIONS; current_iteration++) {
-
         var iteration = paper.set();
         var circles = paper.set();
         var marks = paper.set();
@@ -50,7 +45,7 @@ function launchSCGBoard () {
 
 
 //
-//
+// Day animation
 //
 
 function nextDay(iterations, day_left, current_iteration) {
@@ -89,7 +84,7 @@ function moveCircle(iterations, day_left, current_iteration) {
 function moveCircles(iterations, day_left, current_iteration) {
 
     if(isMidWeek(day_left)) {
-    	playGong();
+    	  playGong();
         t = text("Vous avez de la chance ?");
         t.click(
             function() {
@@ -117,14 +112,7 @@ function moveCircles(iterations, day_left, current_iteration) {
 function retroTime(iterations, current_iteration) {
 
     var t = text("Rétrospective !");
-    var marks = paper.set();
-    var line = paper.rect(50, 423, 720, 4);
-    marks.push(line);
-    marks.push(paper.rect(49, 415, 2 , 20));
-    marks.push(paper.rect(229, 420, 2 , 10));
-    marks.push(paper.rect(409, 418, 2 , 14));
-    marks.push(paper.rect(589, 420, 2 , 10));
-    marks.push(paper.rect(769, 415, 2 , 20));
+    var marks = retroMark();
 
     var circle = paper.circle(50, 425, 25);
     marks.push(circle);
@@ -149,9 +137,6 @@ function retroTime(iterations, current_iteration) {
 };
 
 
-
-
-
 // Time mark
 function timeMark(day, iteration) {
     var marks = paper.set(); 
@@ -170,6 +155,19 @@ function hideShowMark(iterations, day, current_iteration) {
     
     var mark = iterations[current_iteration][1][day];
     mark.show();
+};
+
+function retroMark() {
+    var marks = paper.set();
+    var line = paper.rect(50, 423, 720, 4);
+    marks.push(line);
+    marks.push(paper.rect(49, 415, 2 , 20));
+    marks.push(paper.rect(229, 420, 2 , 10));
+    marks.push(paper.rect(409, 418, 2 , 14));
+    marks.push(paper.rect(589, 420, 2 , 10));
+    marks.push(paper.rect(769, 415, 2 , 20));
+
+    return marks;
 };
 
 
@@ -219,7 +217,7 @@ function textButton(text) {
 }
 
 function manualMgmt() {
-    var manualButton = textButton("manual");
+    var manualButton = textButton("manuel");
     var autoButton = textButton("auto");
 
 
